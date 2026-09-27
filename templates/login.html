@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Login | Smart Hospital</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+    <style>
+
+        .login-section {
+            min-height: 75vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 60px 20px;
+        }
+
+        .login-card {
+            width: 100%;
+            max-width: 450px;
+            background: white;
+            padding: 40px;
+            border-radius: 22px;
+
+            border: 1px solid #e2e8f0;
+
+            box-shadow:
+                0 20px 50px rgba(15, 23, 42, 0.10);
+        }
+
+        .login-icon {
+            width: 65px;
+            height: 65px;
+            margin: 0 auto 20px;
+
+            border-radius: 18px;
+
+            background: #eef7ff;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 30px;
+        }
+
+        .login-card h1 {
+            text-align: center;
+            color: #0b2545;
+            margin-bottom: 8px;
+        }
+
+        .login-card > p {
+            text-align: center;
+            color: #64748b;
+            margin-bottom: 30px;
+        }
+
+        .login-group {
+            margin-bottom: 20px;
+        }
+
+        .login-group label {
+            display: block;
+            color: #334155;
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .login-group input {
+            width: 100%;
+            box-sizing: border-box;
+
+            padding: 13px 15px;
+
+            border: 1px solid #dbe3ec;
+            border-radius: 10px;
+
+            outline: none;
+            font-size: 14px;
+        }
+
+        .login-group input:focus {
+            border-color: #0874cf;
+            box-shadow: 0 0 0 3px rgba(8, 116, 207, 0.10);
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 13px;
+
+            border: none;
+            border-radius: 10px;
+
+            background: #0874cf;
+            color: white;
+
+            font-weight: 700;
+            font-size: 15px;
+
+            cursor: pointer;
+        }
+
+        .login-btn:hover {
+            background: #075fa8;
+        }
+
+        .login-note {
+            margin-top: 22px;
+            padding: 14px;
+
+            border-radius: 10px;
+
+            background: #f8fafc;
+
+            color: #64748b;
+            font-size: 13px;
+            text-align: center;
+        }
+
+        .login-back {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+
+            color: #0874cf;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+    </style>
+</head>
+
+<body>
+
+<nav class="navbar">
+
+    <div class="container nav-container">
+
+        <a href="/" class="logo">
+            Smart<span>Hospital</span>
+        </a>
+
+        <div class="nav-links">
+            <a href="/">Home</a>
+            <a href="/register">Emergency</a>
+            <a href="/about">About</a>
+        </div>
+
+    </div>
+
+</nav>
+
+
+<section class="login-section">
+
+    <div class="login-card">
+
+        <div class="login-icon">
+            🔐
+        </div>
+
+        <h1>Hospital Login</h1>
+
+        <p>
+            Sign in to access the Smart Hospital system.
+        </p>
+
+
+        {% if error %}
+
+        <div class="alert alert-error">
+            {{ error }}
+        </div>
+
+        {% endif %}
+
+
+        <form method="POST"
+              action="{{ url_for('login') }}">
+
+            <div class="login-group">
+
+                <label>
+                    Email
+                </label>
+
+                <input
+                    type="email"
+                    name="email"
+                    placeholder="Enter your email"
+                    required
+                >
+
+            </div>
+
+
+            <div class="login-group">
+
+                <label>
+                    Password
+                </label>
+
+                <input
+                    type="password"
+                    name="password"
+                    placeholder="Enter your password"
+                    required
+                >
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="login-btn">
+
+                Login
+
+            </button>
+
+        </form>
+
+
+        <div class="login-note">
+            Authorized hospital users only.
+        </div>
+
+
+        <a href="/" class="login-back">
+            ← Back to Home
+        </a>
+
+    </div>
+
+</section>
+
+
+<footer>
+
+    <div class="container footer-content">
+
+        <p>© 2026 Smart Hospital</p>
+
+        <p>Secure Hospital Management System</p>
+
+    </div>
+
+</footer>
+
+</body>
+</html>

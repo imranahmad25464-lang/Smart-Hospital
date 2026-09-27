@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Ambulance Management | Smart Hospital</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+    <style>
+
+        .ambulance-intro {
+            margin-bottom: 30px;
+        }
+
+        .ambulance-intro h2 {
+            color: #0b2545;
+            margin-bottom: 8px;
+        }
+
+        .ambulance-intro p {
+            color: #64748b;
+        }
+
+        .ambulance-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+            margin-bottom: 30px;
+        }
+
+        .ambulance-stat {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 22px;
+
+            box-shadow:
+                0 10px 25px rgba(15, 23, 42, 0.05);
+        }
+
+        .ambulance-stat span {
+            display: block;
+            color: #64748b;
+            font-size: 12px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .ambulance-stat strong {
+            font-size: 28px;
+            color: #0b2545;
+        }
+
+        .ambulance-card {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 18px;
+            padding: 25px;
+
+            box-shadow:
+                0 10px 30px rgba(15, 23, 42, 0.06);
+
+            overflow-x: auto;
+        }
+
+        .ambulance-card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 20px;
+            margin-bottom: 22px;
+        }
+
+        .ambulance-card-header span {
+            color: #0874cf;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .ambulance-card-header h2 {
+            color: #0b2545;
+            margin-top: 5px;
+        }
+
+        .ambulance-table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 700px;
+        }
+
+        .ambulance-table th {
+            text-align: left;
+
+            padding: 15px 12px;
+
+            background: #f8fafc;
+
+            color: #475569;
+
+            font-size: 12px;
+            font-weight: 700;
+
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .ambulance-table td {
+            padding: 17px 12px;
+
+            color: #334155;
+
+            border-bottom: 1px solid #eef2f7;
+
+            font-size: 14px;
+        }
+
+        .ambulance-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .ambulance-number {
+            font-weight: 800;
+            color: #0b2545;
+        }
+
+        .status-badge {
+            display: inline-block;
+
+            padding: 6px 12px;
+
+            border-radius: 20px;
+
+            background: #eef7ff;
+
+            color: #0874cf;
+
+            font-size: 12px;
+
+            font-weight: 700;
+        }
+
+        .ambulance-form {
+            display: flex;
+
+            align-items: center;
+
+            gap: 8px;
+        }
+
+        .ambulance-form select {
+            padding: 9px 10px;
+
+            border: 1px solid #dbe3ec;
+
+            border-radius: 8px;
+
+            background: white;
+
+            color: #334155;
+
+            outline: none;
+        }
+
+        .ambulance-update {
+            padding: 9px 13px;
+
+            border: none;
+
+            border-radius: 8px;
+
+            background: #0874cf;
+
+            color: white;
+
+            font-weight: 700;
+
+            cursor: pointer;
+
+            transition: 0.2s;
+        }
+
+        .ambulance-update:hover {
+            background: #075fa8;
+        }
+
+        .empty-ambulance {
+            text-align: center;
+            padding: 50px 20px;
+        }
+
+        .empty-ambulance h3 {
+            color: #0b2545;
+            margin-bottom: 8px;
+        }
+
+        .empty-ambulance p {
+            color: #64748b;
+        }
+
+        .ambulance-actions {
+            margin-top: 30px;
+
+            display: flex;
+
+            gap: 15px;
+
+            flex-wrap: wrap;
+        }
+
+        @media (max-width: 900px) {
+
+            .ambulance-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+        }
+
+        @media (max-width: 600px) {
+
+            .ambulance-stats {
+                grid-template-columns: 1fr;
+            }
+
+            .ambulance-card-header {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+
+<!-- NAVBAR -->
+
+<nav class="navbar">
+
+    <div class="container nav-container">
+
+        <a href="/" class="logo">
+            Smart<span>Hospital</span>
+        </a>
+
+        <div class="nav-links">
+
+            <a href="/">
+                Home
+            </a>
+
+            <a href="/register">
+                Emergency
+            </a>
+
+            <a href="/dashboard">
+                Doctor
+            </a>
+
+            <a href="/beds">
+                Beds & ICU
+            </a>
+
+            <a href="/ambulances">
+                Ambulance
+            </a>
+
+            <a href="/about">
+                About
+            </a>
+
+        </div>
+
+    </div>
+
+</nav>
+
+
+<!-- PAGE HEADER -->
+
+<section class="page-header">
+
+    <div class="container">
+
+        <span>
+            EMERGENCY TRANSPORT
+        </span>
+
+        <h1>
+            Ambulance Management
+        </h1>
+
+        <p>
+            Monitor ambulance availability and
+            emergency transportation status.
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- MAIN -->
+
+<section class="dashboard-section">
+
+    <div class="container">
+
+
+        <!-- INTRO -->
+
+        <div class="ambulance-intro">
+
+            <h2>
+                Ambulance Operations
+            </h2>
+
+            <p>
+                Hospital staff can monitor and update
+                the operational status of ambulances.
+            </p>
+
+        </div>
+
+
+        <!-- STATS -->
+
+        <div class="ambulance-stats">
+
+
+            <div class="ambulance-stat">
+
+                <span>
+                    TOTAL AMBULANCES
+                </span>
+
+                <strong>
+                    {{ ambulances|length }}
+                </strong>
+
+            </div>
+
+
+            <div class="ambulance-stat">
+
+                <span>
+                    AVAILABLE
+                </span>
+
+                <strong>
+                    {{ ambulances|selectattr("status", "equalto", "Available")|list|length }}
+                </strong>
+
+            </div>
+
+
+            <div class="ambulance-stat">
+
+                <span>
+                    ON DUTY
+                </span>
+
+                <strong>
+                    {{ ambulances|selectattr("status", "equalto", "On Duty")|list|length }}
+                </strong>
+
+            </div>
+
+
+            <div class="ambulance-stat">
+
+                <span>
+                    MAINTENANCE
+                </span>
+
+                <strong>
+                    {{ ambulances|selectattr("status", "equalto", "Maintenance")|list|length }}
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <!-- TABLE -->
+
+        <div class="ambulance-card">
+
+
+            <div class="ambulance-card-header">
+
+                <div>
+
+                    <span>
+                        LIVE STATUS
+                    </span>
+
+                    <h2>
+                        Ambulance Fleet
+                    </h2>
+
+                </div>
+
+                <a href="/register"
+                   class="btn btn-primary">
+
+                    + Emergency Registration
+
+                </a>
+
+            </div>
+
+
+            {% if ambulances %}
+
+
+            <table class="ambulance-table">
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Ambulance
+                        </th>
+
+                        <th>
+                            Driver
+                        </th>
+
+                        <th>
+                            Contact
+                        </th>
+
+                        <th>
+                            Location
+                        </th>
+
+                        <th>
+                            Status
+                        </th>
+
+                        <th>
+                            Update
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+
+                {% for ambulance in ambulances %}
+
+
+                    <tr>
+
+
+                        <!-- AMBULANCE NUMBER -->
+
+                        <td>
+
+                            <span class="ambulance-number">
+
+                                {{ ambulance["ambulance_number"] }}
+
+                            </span>
+
+                        </td>
+
+
+                        <!-- DRIVER -->
+
+                        <td>
+
+                            {{ ambulance["driver_name"] }}
+
+                        </td>
+
+
+                        <!-- PHONE -->
+
+                        <td>
+
+                            {{ ambulance["phone"] }}
+
+                        </td>
+
+
+                        <!-- LOCATION -->
+
+                        <td>
+
+                            {{ ambulance["location"] }}
+
+                        </td>
+
+
+                        <!-- STATUS -->
+
+                        <td>
+
+                            <span class="status-badge">
+
+                                {{ ambulance["status"] }}
+
+                            </span>
+
+                        </td>
+
+
+                        <!-- UPDATE -->
+
+                        <td>
+
+                            <form
+                                action="{{ url_for('update_ambulance', ambulance_id=ambulance['id']) }}"
+                                method="POST"
+                                class="ambulance-form"
+                            >
+
+
+                                <select name="status">
+
+
+                                    <option
+                                        value="Available"
+                                        {% if ambulance["status"] == "Available" %}
+                                            selected
+                                        {% endif %}
+                                    >
+                                        Available
+                                    </option>
+
+
+                                    <option
+                                        value="On Duty"
+                                        {% if ambulance["status"] == "On Duty" %}
+                                            selected
+                                        {% endif %}
+                                    >
+                                        On Duty
+                                    </option>
+
+
+                                    <option
+                                        value="Maintenance"
+                                        {% if ambulance["status"] == "Maintenance" %}
+                                            selected
+                                        {% endif %}
+                                    >
+                                        Maintenance
+                                    </option>
+
+
+                                </select>
+
+
+                                <button
+                                    type="submit"
+                                    class="ambulance-update"
+                                >
+
+                                    Update
+
+                                </button>
+
+
+                            </form>
+
+                        </td>
+
+
+                    </tr>
+
+
+                {% endfor %}
+
+
+                </tbody>
+
+            </table>
+
+
+            {% else %}
+
+
+            <div class="empty-ambulance">
+
+                <h3>
+                    No Ambulances Available
+                </h3>
+
+                <p>
+                    Ambulance records will appear here
+                    when they are added to the system.
+                </p>
+
+            </div>
+
+
+            {% endif %}
+
+
+        </div>
+
+
+        <!-- ACTIONS -->
+
+        <div class="ambulance-actions">
+
+
+            <a href="/dashboard"
+               class="btn btn-primary">
+
+                ← Doctor Dashboard
+
+            </a>
+
+
+            <a href="/beds"
+               class="btn btn-primary">
+
+                Beds & ICU
+
+            </a>
+
+
+            <a href="/"
+               class="btn btn-primary">
+
+                Home
+
+            </a>
+
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+<!-- FOOTER -->
+
+<footer>
+
+    <div class="container footer-content">
+
+        <p>
+            © 2026 Smart Hospital
+        </p>
+
+        <p>
+            Emergency Transportation Management
+        </p>
+
+    </div>
+
+</footer>
+
+
+</body>
+
+</html>

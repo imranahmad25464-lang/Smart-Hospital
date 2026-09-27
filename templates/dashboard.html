@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Doctor Dashboard | Smart Hospital</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<!-- ================= NAVBAR ================= -->
+
+<nav class="navbar">
+
+    <div class="container nav-container">
+
+        <a href="/" class="logo">
+            Smart<span>Hospital</span>
+        </a>
+
+        <div class="nav-links">
+
+            <a href="/">Home</a>
+
+            <a href="/register">
+                Emergency
+            </a>
+
+            <a href="/dashboard">
+                Doctor Dashboard
+            </a>
+
+            <a href="/beds">
+                Beds & ICU
+            </a>
+
+            <a href="/ambulances">
+                Ambulance
+            </a>
+
+            <a href="/doctor-login">
+                Doctor Login
+            </a>
+
+            <a href="/staff-login">
+                Staff Login
+            </a>
+
+            <a href="/admin-login">
+                Admin Login
+            </a>
+
+            <a href="/about">
+                About
+            </a>
+
+        </div>
+
+    </div>
+
+</nav>
+
+
+<!-- ================= PAGE HEADER ================= -->
+
+<section class="page-header">
+
+    <div class="container">
+
+        <span>
+            DOCTOR OPERATIONS
+        </span>
+
+        <h1>
+            Emergency Dashboard
+        </h1>
+
+        <p>
+            Monitor emergency patients, priority levels
+            and treatment status from one place.
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- ================= DASHBOARD ================= -->
+
+<section class="dashboard-section">
+
+    <div class="container">
+
+
+        <!-- ================= STATS ================= -->
+
+        <div class="stats-grid">
+
+
+            <!-- TOTAL PATIENTS -->
+
+            <div class="stat-card">
+
+                <span>
+                    TOTAL PATIENTS
+                </span>
+
+                <strong>
+                    {{ stats.total }}
+                </strong>
+
+                <small>
+                    Registered patients
+                </small>
+
+            </div>
+
+
+            <!-- WAITING -->
+
+            <div class="stat-card">
+
+                <span>
+                    WAITING
+                </span>
+
+                <strong>
+                    {{ stats.waiting }}
+                </strong>
+
+                <small>
+                    Patients waiting
+                </small>
+
+            </div>
+
+
+            <!-- CRITICAL -->
+
+            <div class="stat-card critical-card">
+
+                <span>
+                    CRITICAL
+                </span>
+
+                <strong>
+                    {{ stats.critical }}
+                </strong>
+
+                <small>
+                    Immediate attention
+                </small>
+
+            </div>
+
+
+            <!-- SERIOUS -->
+
+            <div class="stat-card">
+
+                <span>
+                    SERIOUS
+                </span>
+
+                <strong>
+                    {{ stats.serious }}
+                </strong>
+
+                <small>
+                    Priority patients
+                </small>
+
+            </div>
+
+
+            <!-- COMPLETED -->
+
+            <div class="stat-card online-card">
+
+                <span>
+                    COMPLETED
+                </span>
+
+                <strong>
+                    {{ stats.completed }}
+                </strong>
+
+                <small>
+                    Completed cases
+                </small>
+
+            </div>
+
+
+            <!-- SYSTEM -->
+
+            <div class="stat-card online-card">
+
+                <span>
+                    SYSTEM
+                </span>
+
+                <strong>
+                    ON
+                </strong>
+
+                <small>
+                    System operational
+                </small>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================= QUEUE ================= -->
+
+        <div class="queue-card">
+
+
+            <div class="queue-header">
+
+                <div>
+
+                    <span>
+                        EMERGENCY QUEUE
+                    </span>
+
+                    <h2>
+                        Patient Management
+                    </h2>
+
+                </div>
+
+
+                <a href="/register"
+                   class="btn btn-primary">
+
+                    + New Patient
+
+                </a>
+
+            </div>
+
+
+            {% if patients %}
+
+
+            <!-- ================= PATIENT TABLE ================= -->
+
+            <div class="table-wrapper">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Token
+                            </th>
+
+                            <th>
+                                Patient
+                            </th>
+
+                            <th>
+                                Age
+                            </th>
+
+                            <th>
+                                Department
+                            </th>
+
+                            <th>
+                                Priority
+                            </th>
+
+                            <th>
+                                Symptoms
+                            </th>
+
+                            <th>
+                                Status
+                            </th>
+
+                            <th>
+                                Update
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                    {% for patient in patients %}
+
+                        <tr>
+
+
+                            <!-- ================= TOKEN ================= -->
+
+                            <td>
+
+                                <strong>
+                                    {{ patient["token"] }}
+                                </strong>
+
+                            </td>
+
+
+                            <!-- ================= PATIENT ================= -->
+
+                            <td>
+
+                                <strong>
+                                    {{ patient["name"] }}
+                                </strong>
+
+                                <br>
+
+                                <small>
+                                    {{ patient["gender"] }}
+                                </small>
+
+                            </td>
+
+
+                            <!-- ================= AGE ================= -->
+
+                            <td>
+                                {{ patient["age"] }}
+                            </td>
+
+
+                            <!-- ================= DEPARTMENT ================= -->
+
+                            <td>
+                                {{ patient["department"] }}
+                            </td>
+
+
+                            <!-- ================= PRIORITY ================= -->
+
+                            <td>
+
+                                {% if patient["emergency_level"] == "Critical" %}
+
+                                    <span class="priority-badge priority-critical">
+                                        Critical
+                                    </span>
+
+                                {% elif patient["emergency_level"] == "Serious" %}
+
+                                    <span class="priority-badge priority-serious">
+                                        Serious
+                                    </span>
+
+                                {% else %}
+
+                                    <span class="priority-badge priority-normal">
+                                        Normal
+                                    </span>
+
+                                {% endif %}
+
+                            </td>
+
+
+                            <!-- ================= SYMPTOMS ================= -->
+
+                            <td>
+
+                                {% if patient["symptoms"] %}
+
+                                    {{ patient["symptoms"] }}
+
+                                {% else %}
+
+                                    <span>
+                                        Not provided
+                                    </span>
+
+                                {% endif %}
+
+                            </td>
+
+
+                            <!-- ================= STATUS ================= -->
+
+                            <td>
+
+                                {% if patient["status"] == "Waiting" %}
+
+                                    <span class="status-badge">
+                                        Waiting
+                                    </span>
+
+                                {% elif patient["status"] == "In Treatment" %}
+
+                                    <span class="status-badge treatment-status">
+                                        In Treatment
+                                    </span>
+
+                                {% elif patient["status"] == "Completed" %}
+
+                                    <span class="status-badge completed-status">
+                                        Completed
+                                    </span>
+
+                                {% else %}
+
+                                    <span class="status-badge">
+                                        {{ patient["status"] }}
+                                    </span>
+
+                                {% endif %}
+
+                            </td>
+
+
+                            <!-- ================= UPDATE ================= -->
+
+                            <td>
+
+                                <form
+                                    action="{{ url_for('update_status', patient_id=patient['id']) }}"
+                                    method="POST"
+                                    class="status-form"
+                                >
+
+                                    <select name="status">
+
+                                        <!-- WAITING -->
+
+                                        <option
+                                            value="Waiting"
+                                            {% if patient["status"] == "Waiting" %}
+                                                selected
+                                            {% endif %}
+                                        >
+                                            Waiting
+                                        </option>
+
+
+                                        <!-- IN TREATMENT -->
+
+                                        <option
+                                            value="In Treatment"
+                                            {% if patient["status"] == "In Treatment" %}
+                                                selected
+                                            {% endif %}
+                                        >
+                                            In Treatment
+                                        </option>
+
+
+                                        <!-- COMPLETED -->
+
+                                        <option
+                                            value="Completed"
+                                            {% if patient["status"] == "Completed" %}
+                                                selected
+                                            {% endif %}
+                                        >
+                                            Completed
+                                        </option>
+
+                                    </select>
+
+
+                                    <button
+                                        type="submit"
+                                        class="update-btn"
+                                    >
+                                        Update
+                                    </button>
+
+                                </form>
+
+                            </td>
+
+
+                        </tr>
+
+                    {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+
+            {% else %}
+
+
+            <!-- ================= EMPTY STATE ================= -->
+
+            <div class="empty-state">
+
+                <h3>
+                    No patients in queue
+                </h3>
+
+                <p>
+                    New emergency registrations will appear here.
+                </p>
+
+                <a href="/register"
+                   class="btn btn-primary">
+
+                    Register Patient
+
+                </a>
+
+            </div>
+
+
+            {% endif %}
+
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= FOOTER ================= -->
+
+<footer>
+
+    <div class="container footer-content">
+
+        <p>
+            © 2026 Smart Hospital
+        </p>
+
+        <p>
+            Digital Emergency Management System
+        </p>
+
+    </div>
+
+</footer>
+
+
+</body>
+
+</html>

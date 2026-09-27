@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Smart Hospital | Emergency System</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+<nav class="navbar">
+
+    <div class="container nav-container">
+
+        <a href="/" class="logo">
+            Smart<span>Hospital</span>
+        </a>
+
+        <div class="nav-links">
+
+            <a href="/">Home</a>
+
+            <a href="/register">
+                Emergency
+            </a>
+
+            <a href="/dashboard">
+                Live Queue
+            </a>
+
+            <a href="/about">
+                About
+            </a>
+
+        </div>
+
+    </div>
+
+</nav>
+
+
+<section class="hero">
+
+    <div class="container hero-content">
+
+        <div class="hero-text">
+
+            <div class="hero-badge">
+                SMART EMERGENCY MANAGEMENT
+            </div>
+
+            <h1>
+                Smarter Care.<br>
+                Faster Response.
+            </h1>
+
+            <p>
+                Digital patient registration, automatic token
+                generation and priority-based emergency queue
+                management for modern hospitals.
+            </p>
+
+            <div class="hero-buttons">
+
+                <a href="/register"
+                   class="btn btn-primary">
+                    Get Emergency Token
+                </a>
+
+                <a href="/dashboard"
+                   class="btn btn-outline">
+                    View Live Queue
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<section class="services">
+
+    <div class="container">
+
+        <div class="section-heading">
+
+            <span>SMART HEALTHCARE</span>
+
+            <h2>
+                Emergency Care Made Smarter
+            </h2>
+
+            <p>
+                A digital workflow designed to reduce
+                registration queues and improve emergency
+                coordination.
+            </p>
+
+        </div>
+
+
+        <div class="service-grid">
+
+            <div class="service-card">
+
+                <div class="service-icon">
+                    01
+                </div>
+
+                <h3>
+                    Digital Patient Token
+                </h3>
+
+                <p>
+                    Register patients digitally and generate
+                    an automatic token without waiting in
+                    a long registration queue.
+                </p>
+
+            </div>
+
+
+            <div class="service-card">
+
+                <div class="service-icon">
+                    02
+                </div>
+
+                <h3>
+                    Emergency Priority
+                </h3>
+
+                <p>
+                    Organize the queue using verified
+                    Critical, Serious and Normal priority
+                    levels.
+                </p>
+
+            </div>
+
+
+            <div class="service-card">
+
+                <div class="service-icon">
+                    03
+                </div>
+
+                <h3>
+                    Live Queue
+                </h3>
+
+                <p>
+                    Monitor patients, emergency priority
+                    and current status from a centralized
+                    dashboard.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<section class="cta-section">
+
+    <div class="container">
+
+        <div class="cta-box">
+
+            <div>
+
+                <span>
+                    EMERGENCY REGISTRATION
+                </span>
+
+                <h2>
+                    Get your digital token now.
+                </h2>
+
+            </div>
+
+            <a href="/register"
+               class="btn btn-light">
+                Register Patient
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<footer>
+
+    <div class="container footer-content">
+
+        <p>
+            © 2026 Smart Hospital
+        </p>
+
+        <p>
+            Digital Emergency Management System
+        </p>
+
+    </div>
+
+</footer>
+
+
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+
+</body>
+
+</html>

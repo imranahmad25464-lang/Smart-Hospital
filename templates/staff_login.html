@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Staff Login | Smart Hospital</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+    <style>
+        .login-page {
+            min-height: 100vh;
+
+            background:
+                linear-gradient(
+                    rgba(4, 25, 48, 0.80),
+                    rgba(4, 25, 48, 0.80)
+                ),
+                url("/static/images/hospital-bg.jpg");
+
+            background-size: cover;
+            background-position: center;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            padding: 40px 20px;
+        }
+
+        .login-box {
+            width: 100%;
+            max-width: 450px;
+
+            background: rgba(255, 255, 255, 0.97);
+
+            border-radius: 22px;
+
+            padding: 42px;
+
+            box-shadow:
+                0 25px 60px rgba(0, 0, 0, 0.28);
+        }
+
+        .login-icon {
+            width: 75px;
+            height: 75px;
+
+            margin: 0 auto 20px;
+
+            border-radius: 50%;
+
+            background: linear-gradient(
+                135deg,
+                #0874cf,
+                #0b2545
+            );
+
+            color: white;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 34px;
+        }
+
+        .login-box h1 {
+            text-align: center;
+            color: #0b2545;
+            margin-bottom: 8px;
+        }
+
+        .login-subtitle {
+            text-align: center;
+            color: #64748b;
+            margin-bottom: 30px;
+        }
+
+        .login-label {
+            display: block;
+
+            margin-bottom: 8px;
+
+            color: #0b2545;
+
+            font-weight: 600;
+        }
+
+        .login-input {
+            width: 100%;
+            box-sizing: border-box;
+
+            padding: 14px 16px;
+
+            border: 1px solid #d7e0ea;
+
+            border-radius: 10px;
+
+            margin-bottom: 18px;
+
+            font-size: 15px;
+
+            outline: none;
+        }
+
+        .login-input:focus {
+            border-color: #0874cf;
+
+            box-shadow:
+                0 0 0 3px rgba(8, 116, 207, 0.12);
+        }
+
+        .login-btn {
+            width: 100%;
+
+            border: none;
+
+            border-radius: 10px;
+
+            padding: 14px;
+
+            background: linear-gradient(
+                135deg,
+                #0874cf,
+                #0b2545
+            );
+
+            color: white;
+
+            font-size: 16px;
+
+            font-weight: 700;
+
+            cursor: pointer;
+
+            transition: 0.25s;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 10px 25px rgba(8, 116, 207, 0.25);
+        }
+
+        .login-info {
+            margin-top: 22px;
+
+            padding: 14px;
+
+            background: #eef7ff;
+
+            border-left: 4px solid #0874cf;
+
+            border-radius: 8px;
+
+            font-size: 13px;
+
+            color: #475569;
+
+            line-height: 1.6;
+        }
+
+        .back-home {
+            display: block;
+
+            text-align: center;
+
+            margin-top: 22px;
+
+            color: #0874cf;
+
+            text-decoration: none;
+
+            font-weight: 600;
+        }
+
+        .back-home:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 500px) {
+
+            .login-box {
+                padding: 30px 22px;
+            }
+
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="login-page">
+
+    <div class="login-box">
+
+        <div class="login-icon">
+            👩‍⚕️
+        </div>
+
+        <h1>Staff Login</h1>
+
+        <p class="login-subtitle">
+            Smart Hospital Staff Portal
+        </p>
+
+        <form method="POST"
+              action="{{ url_for('staff_login') }}">
+
+            <label class="login-label">
+                Staff ID
+            </label>
+
+            <input
+                type="text"
+                name="staff_id"
+                class="login-input"
+                placeholder="Enter Staff ID"
+                required
+            >
+
+            <label class="login-label">
+                Password
+            </label>
+
+            <input
+                type="password"
+                name="password"
+                class="login-input"
+                placeholder="Enter Password"
+                required
+            >
+
+            <button
+                type="submit"
+                class="login-btn">
+
+                Login to Staff Portal
+
+            </button>
+
+        </form>
+
+        <div class="login-info">
+
+            <strong>Staff Access</strong><br>
+
+            Authorized hospital staff can manage
+            patient queues, beds, ICU availability
+            and emergency operations.
+
+        </div>
+
+        <a href="/" class="back-home">
+            ← Back to Home
+        </a>
+
+    </div>
+
+</div>
+
+</body>
+</html>

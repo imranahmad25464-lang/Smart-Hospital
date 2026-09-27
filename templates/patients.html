@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Patients | Smart Hospital</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+    <style>
+
+        .patients-intro {
+            margin-bottom: 30px;
+        }
+
+        .patients-intro h2 {
+            color: #0b2545;
+            margin-bottom: 8px;
+        }
+
+        .patients-intro p {
+            color: #64748b;
+        }
+
+        .patients-card {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 18px;
+            padding: 25px;
+
+            box-shadow:
+                0 10px 30px rgba(15, 23, 42, 0.06);
+
+            overflow-x: auto;
+        }
+
+        .patients-table {
+            width: 100%;
+            min-width: 900px;
+            border-collapse: collapse;
+        }
+
+        .patients-table th {
+            text-align: left;
+            padding: 15px 12px;
+
+            background: #f8fafc;
+
+            color: #475569;
+
+            font-size: 12px;
+            font-weight: 700;
+
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .patients-table td {
+            padding: 16px 12px;
+
+            color: #334155;
+
+            font-size: 14px;
+
+            border-bottom: 1px solid #eef2f7;
+        }
+
+        .patients-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .token {
+            color: #0874cf;
+            font-weight: 800;
+        }
+
+        .priority {
+            display: inline-block;
+
+            padding: 6px 11px;
+
+            border-radius: 20px;
+
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .priority-critical {
+            background: #fee2e2;
+            color: #b91c1c;
+        }
+
+        .priority-serious {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .priority-normal {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .patient-status {
+            display: inline-block;
+
+            padding: 6px 11px;
+
+            border-radius: 20px;
+
+            background: #eef7ff;
+            color: #0874cf;
+
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .patient-actions {
+            margin-top: 30px;
+
+            display: flex;
+            gap: 15px;
+
+            flex-wrap: wrap;
+        }
+
+        .empty-patients {
+            text-align: center;
+            padding: 50px 20px;
+        }
+
+        .empty-patients h3 {
+            color: #0b2545;
+            margin-bottom: 8px;
+        }
+
+        .empty-patients p {
+            color: #64748b;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<nav class="navbar">
+
+    <div class="container nav-container">
+
+        <a href="/" class="logo">
+            Smart<span>Hospital</span>
+        </a>
+
+        <div class="nav-links">
+
+            <a href="/">Home</a>
+
+            <a href="/register">
+                Emergency
+            </a>
+
+            <a href="/dashboard">
+                Doctor
+            </a>
+
+            <a href="/patients">
+                Patients
+            </a>
+
+            <a href="/beds">
+                Beds & ICU
+            </a>
+
+            <a href="/ambulances">
+                Ambulance
+            </a>
+
+            <a href="/about">
+                About
+            </a>
+
+        </div>
+
+    </div>
+
+</nav>
+
+
+<section class="page-header">
+
+    <div class="container">
+
+        <span>PATIENT MANAGEMENT</span>
+
+        <h1>Registered Patients</h1>
+
+        <p>
+            View registered patients and their
+            current emergency status.
+        </p>
+
+    </div>
+
+</section>
+
+
+<section class="dashboard-section">
+
+    <div class="container">
+
+
+        <div class="patients-intro">
+
+            <h2>
+                Patient Records
+            </h2>
+
+            <p>
+                Hospital staff can monitor patient
+                registration and treatment status.
+            </p>
+
+        </div>
+
+
+        <div class="patients-card">
+
+
+            {% if patients %}
+
+            <table class="patients-table">
+
+                <thead>
+
+                    <tr>
+
+                        <th>Token</th>
+
+                        <th>Patient</th>
+
+                        <th>Age</th>
+
+                        <th>Gender</th>
+
+                        <th>Phone</th>
+
+                        <th>Department</th>
+
+                        <th>Priority</th>
+
+                        <th>Status</th>
+
+                        <th>Registered</th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                {% for patient in patients %}
+
+                    <tr>
+
+                        <td>
+                            <span class="token">
+                                {{ patient["token"] }}
+                            </span>
+                        </td>
+
+                        <td>
+                            {{ patient["name"] }}
+                        </td>
+
+                        <td>
+                            {{ patient["age"] }}
+                        </td>
+
+                        <td>
+                            {{ patient["gender"] }}
+                        </td>
+
+                        <td>
+                            {{ patient["phone"] }}
+                        </td>
+
+                        <td>
+                            {{ patient["department"] }}
+                        </td>
+
+                        <td>
+
+                            <span class="priority
+                                priority-{{ patient['emergency_level']|lower }}">
+
+                                {{ patient["emergency_level"] }}
+
+                            </span>
+
+                        </td>
+
+                        <td>
+
+                            <span class="patient-status">
+                                {{ patient["status"] }}
+                            </span>
+
+                        </td>
+
+                        <td>
+                            {{ patient["created_at"] }}
+                        </td>
+
+                    </tr>
+
+                {% endfor %}
+
+                </tbody>
+
+            </table>
+
+
+            {% else %}
+
+            <div class="empty-patients">
+
+                <h3>
+                    No Patients Found
+                </h3>
+
+                <p>
+                    Registered patients will appear here.
+                </p>
+
+            </div>
+
+            {% endif %}
+
+        </div>
+
+
+        <div class="patient-actions">
+
+            <a href="/register"
+               class="btn btn-primary">
+
+                + Register Patient
+
+            </a>
+
+            <a href="/dashboard"
+               class="btn btn-primary">
+
+                Live Queue
+
+            </a>
+
+            <a href="/"
+               class="btn btn-primary">
+
+                ← Home
+
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<footer>
+
+    <div class="container footer-content">
+
+        <p>
+            © 2026 Smart Hospital
+        </p>
+
+        <p>
+            Patient Management System
+        </p>
+
+    </div>
+
+</footer>
+
+
+</body>
+</html>

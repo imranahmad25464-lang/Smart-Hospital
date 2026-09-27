@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Doctor Portal | Smart Hospital</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+    <style>
+
+        .doctor-welcome {
+            margin-bottom: 30px;
+        }
+
+        .doctor-welcome h2 {
+            color: #0b2545;
+            margin-bottom: 8px;
+        }
+
+        .doctor-welcome p {
+            color: #64748b;
+        }
+
+        .doctor-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 22px;
+            margin-top: 25px;
+        }
+
+        .doctor-card {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 18px;
+            padding: 28px;
+            text-decoration: none;
+            color: inherit;
+
+            box-shadow:
+                0 10px 30px rgba(15, 23, 42, 0.06);
+
+            transition: 0.25s;
+        }
+
+        .doctor-card:hover {
+            transform: translateY(-5px);
+
+            box-shadow:
+                0 18px 35px rgba(15, 23, 42, 0.11);
+        }
+
+        .doctor-icon {
+            width: 58px;
+            height: 58px;
+
+            border-radius: 15px;
+
+            background: #eef7ff;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 28px;
+
+            margin-bottom: 18px;
+        }
+
+        .doctor-card h3 {
+            color: #0b2545;
+            margin-bottom: 10px;
+        }
+
+        .doctor-card p {
+            color: #64748b;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .doctor-tag {
+            display: inline-block;
+
+            margin-top: 12px;
+
+            padding: 6px 12px;
+
+            border-radius: 20px;
+
+            background: #eef7ff;
+            color: #0874cf;
+
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .doctor-actions {
+            margin-top: 35px;
+
+            display: flex;
+            gap: 15px;
+
+            flex-wrap: wrap;
+        }
+
+        @media (max-width: 900px) {
+
+            .doctor-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+        }
+
+        @media (max-width: 600px) {
+
+            .doctor-grid {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+    </style>
+</head>
+
+<body>
+
+
+<!-- NAVBAR -->
+
+<nav class="navbar">
+
+    <div class="container nav-container">
+
+        <a href="/" class="logo">
+            Smart<span>Hospital</span>
+        </a>
+
+        <div class="nav-links">
+
+            <a href="/">Home</a>
+
+            <a href="/dashboard">
+                Live Queue
+            </a>
+
+            <a href="/beds">
+                Beds & ICU
+            </a>
+
+            <a href="/ambulances">
+                Ambulance
+            </a>
+
+            <a href="/about">
+                About
+            </a>
+
+        </div>
+
+    </div>
+
+</nav>
+
+
+<!-- HEADER -->
+
+<section class="page-header">
+
+    <div class="container">
+
+        <span>DOCTOR OPERATIONS</span>
+
+        <h1>Doctor Portal</h1>
+
+        <p>
+            Monitor emergency patients and
+            manage treatment workflow.
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- CONTENT -->
+
+<section class="dashboard-section">
+
+    <div class="container">
+
+
+        <div class="doctor-welcome">
+
+            <h2>
+                Welcome, Doctor
+            </h2>
+
+            <p>
+                Select an operation to continue
+                with patient management.
+            </p>
+
+        </div>
+
+
+        <div class="doctor-grid">
+
+
+            <!-- LIVE QUEUE -->
+
+            <a href="/dashboard"
+               class="doctor-card">
+
+                <div class="doctor-icon">
+                    👥
+                </div>
+
+                <h3>
+                    Live Patient Queue
+                </h3>
+
+                <p>
+                    View patients waiting for
+                    emergency consultation and treatment.
+                </p>
+
+                <span class="doctor-tag">
+                    LIVE QUEUE
+                </span>
+
+            </a>
+
+
+            <!-- CRITICAL CASES -->
+
+            <a href="/dashboard"
+               class="doctor-card">
+
+                <div class="doctor-icon">
+                    🚨
+                </div>
+
+                <h3>
+                    Emergency Cases
+                </h3>
+
+                <p>
+                    Review critical and serious
+                    cases requiring priority attention.
+                </p>
+
+                <span class="doctor-tag">
+                    PRIORITY
+                </span>
+
+            </a>
+
+
+            <!-- TREATMENT -->
+
+            <a href="/dashboard"
+               class="doctor-card">
+
+                <div class="doctor-icon">
+                    🩺
+                </div>
+
+                <h3>
+                    Treatment Management
+                </h3>
+
+                <p>
+                    Update patient treatment status
+                    from waiting to completed.
+                </p>
+
+                <span class="doctor-tag">
+                    TREATMENT
+                </span>
+
+            </a>
+
+
+            <!-- BEDS -->
+
+            <a href="/beds"
+               class="doctor-card">
+
+                <div class="doctor-icon">
+                    🛏️
+                </div>
+
+                <h3>
+                    Bed & ICU Status
+                </h3>
+
+                <p>
+                    Check current availability of
+                    hospital beds and ICU units.
+                </p>
+
+                <span class="doctor-tag">
+                    RESOURCES
+                </span>
+
+            </a>
+
+
+            <!-- AMBULANCE -->
+
+            <a href="/ambulances"
+               class="doctor-card">
+
+                <div class="doctor-icon">
+                    🚑
+                </div>
+
+                <h3>
+                    Ambulance Status
+                </h3>
+
+                <p>
+                    View ambulance availability
+                    for emergency coordination.
+                </p>
+
+                <span class="doctor-tag">
+                    EMERGENCY
+                </span>
+
+            </a>
+
+
+            <!-- PATIENT REGISTRATION -->
+
+            <a href="/register"
+               class="doctor-card">
+
+                <div class="doctor-icon">
+                    📋
+                </div>
+
+                <h3>
+                    Patient Registration
+                </h3>
+
+                <p>
+                    Access the emergency registration
+                    workflow when required.
+                </p>
+
+                <span class="doctor-tag">
+                    PATIENTS
+                </span>
+
+            </a>
+
+        </div>
+
+
+        <div class="doctor-actions">
+
+            <a href="/dashboard"
+               class="btn btn-primary">
+                Open Live Queue
+            </a>
+
+            <a href="/"
+               class="btn btn-primary">
+                ← Home
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- FOOTER -->
+
+<footer>
+
+    <div class="container footer-content">
+
+        <p>
+            © 2026 Smart Hospital
+        </p>
+
+        <p>
+            Doctor Operations Management
+        </p>
+
+    </div>
+
+</footer>
+
+
+</body>
+
+</html>

@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Emergency Token | Smart Hospital
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}"
+    >
+
+</head>
+
+<body>
+
+
+<!-- NAVBAR -->
+<nav class="navbar">
+
+    <div class="container nav-container">
+
+        <a href="/" class="logo">
+            Smart<span>Hospital</span>
+        </a>
+
+        <div class="nav-links">
+
+            <a href="/">
+                Home
+            </a>
+
+            <a href="/register">
+                Emergency
+            </a>
+
+            <a href="/dashboard">
+                Live Queue
+            </a>
+
+            <a href="/about">
+                About
+            </a>
+
+        </div>
+
+    </div>
+
+</nav>
+
+
+<!-- TOKEN BACKGROUND HERO -->
+<section class="page-hero token-hero">
+
+    <div class="page-hero-overlay">
+
+        <div class="container">
+
+            <span class="page-label">
+                TOKEN CONFIRMATION
+            </span>
+
+            <h1>
+                Your Emergency Token
+            </h1>
+
+            <p>
+                Your digital hospital token has been
+                generated successfully.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- TOKEN DETAILS -->
+<section class="token-section">
+
+    <div class="container">
+
+        <div class="token-card">
+
+            <!-- SUCCESS -->
+            <div class="success-icon">
+                ✓
+            </div>
+
+
+            <span class="token-label">
+                TOKEN GENERATED SUCCESSFULLY
+            </span>
+
+
+            <h1>
+                Your Emergency Token
+            </h1>
+
+
+            <!-- TOKEN NUMBER -->
+            <div class="token-number">
+                {{ patient["token"] }}
+            </div>
+
+
+            <p class="token-message">
+                Please keep this token number for
+                queue tracking.
+            </p>
+
+
+            <!-- PATIENT DETAILS -->
+            <div class="patient-details">
+
+                <div>
+
+                    <span>
+                        Patient
+                    </span>
+
+                    <strong>
+                        {{ patient["name"] }}
+                    </strong>
+
+                </div>
+
+
+                <div>
+
+                    <span>
+                        Department
+                    </span>
+
+                    <strong>
+                        {{ patient["department"] }}
+                    </strong>
+
+                </div>
+
+
+                <div>
+
+                    <span>
+                        Priority
+                    </span>
+
+                    <strong
+                        class="priority-{{ patient['emergency_level']|lower }}"
+                    >
+                        {{ patient["emergency_level"] }}
+                    </strong>
+
+                </div>
+
+
+                <div>
+
+                    <span>
+                        Status
+                    </span>
+
+                    <strong>
+                        {{ patient["status"] }}
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <!-- BUTTONS -->
+            <div class="token-buttons">
+
+                <a
+                    href="/dashboard"
+                    class="btn btn-primary"
+                >
+                    Track Queue
+                </a>
+
+
+                <a
+                    href="/register"
+                    class="btn btn-secondary"
+                >
+                    New Registration
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- FOOTER -->
+<footer>
+
+    <div class="container footer-content">
+
+        <p>
+            © 2026 Smart Hospital
+        </p>
+
+        <p>
+            Digital Emergency Management System
+        </p>
+
+    </div>
+
+</footer>
+
+</body>
+</html>
