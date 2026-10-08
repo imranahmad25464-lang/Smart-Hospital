@@ -314,23 +314,36 @@ def login_required(role=None):
 
 
 # =========================================================
-# TOKEN GENERATOR
+# TOKEN GENERATOR - FIXED
 # =========================================================
 
 def generate_token():
 
     conn = get_db()
 
-    total = conn.execute("""
-        SELECT COUNT(*) AS total
-        FROM patients
-        WHERE date(created_at) =
-              date('now', 'localtime')
-    """).fetchone()["total"]
+    try:
 
-    conn.close()
+        number = 1
 
-    return f"E-{total + 1:03d}"
+        while True:
+
+            token = f"E-{number:03d}"
+
+            existing = conn.execute("""
+                SELECT id
+                FROM patients
+                WHERE token = ?
+            """, (token,)).fetchone()
+
+            if existing is None:
+
+                return token
+
+            number += 1
+
+    finally:
+
+        conn.close()
 
 
 # =========================================================
