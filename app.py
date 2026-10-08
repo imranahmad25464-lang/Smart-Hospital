@@ -80,7 +80,6 @@ def init_db():
         )
     """)
 
-
     # -----------------------------------------------------
     # BEDS
     # -----------------------------------------------------
@@ -95,7 +94,6 @@ def init_db():
         )
     """)
 
-
     # -----------------------------------------------------
     # AMBULANCES
     # -----------------------------------------------------
@@ -109,7 +107,6 @@ def init_db():
             status TEXT DEFAULT 'Available'
         )
     """)
-
 
     # -----------------------------------------------------
     # COMPATIBILITY COLUMNS
@@ -136,7 +133,6 @@ def init_db():
         "TEXT DEFAULT 'Hospital Campus'"
     )
 
-
     # -----------------------------------------------------
     # DEMO BEDS
     # -----------------------------------------------------
@@ -145,7 +141,6 @@ def init_db():
         SELECT COUNT(*) AS total
         FROM beds
     """).fetchone()["total"]
-
 
     if bed_count == 0:
 
@@ -217,7 +212,6 @@ def init_db():
 
         ]
 
-
         conn.executemany("""
             INSERT INTO beds
             (
@@ -231,7 +225,6 @@ def init_db():
             VALUES (?, ?, ?, ?, ?, 'Available')
         """, beds)
 
-
     # -----------------------------------------------------
     # DEMO AMBULANCES
     # -----------------------------------------------------
@@ -240,7 +233,6 @@ def init_db():
         SELECT COUNT(*) AS total
         FROM ambulances
     """).fetchone()["total"]
-
 
     if ambulance_count == 0:
 
@@ -269,7 +261,6 @@ def init_db():
 
         ]
 
-
         conn.executemany("""
             INSERT INTO ambulances
             (
@@ -281,7 +272,6 @@ def init_db():
             )
             VALUES (?, ?, ?, ?, 'Available')
         """, ambulances)
-
 
     conn.commit()
     conn.close()
@@ -299,11 +289,9 @@ def login_required(role=None):
         def wrapper(*args, **kwargs):
 
             if "user_role" not in session:
-
                 return redirect(url_for("login"))
 
             if role and session.get("user_role") != role:
-
                 return redirect(url_for("login"))
 
             return function(*args, **kwargs)
@@ -336,7 +324,6 @@ def generate_token():
             """, (token,)).fetchone()
 
             if existing is None:
-
                 return token
 
             number += 1
@@ -368,7 +355,6 @@ def login():
         email = request.form.get("email", "").strip()
         password = request.form.get("password", "").strip()
 
-        # Demo login system
         if email == "admin@smarthospital.com" and password == "admin123":
 
             session["user_role"] = "admin"
@@ -444,7 +430,6 @@ def register():
             ""
         ).strip()
 
-
         if not name or not age or not gender or not phone:
 
             return render_template(
@@ -452,17 +437,13 @@ def register():
                 error="Please fill all required fields."
             )
 
-
         token = generate_token()
-
 
         created_at = datetime.now().strftime(
             "%Y-%m-%d %H:%M:%S"
         )
 
-
         conn = get_db()
-
 
         conn.execute("""
             INSERT INTO patients
@@ -480,7 +461,6 @@ def register():
             )
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         """, (
-
             token,
             name,
             age,
@@ -491,13 +471,10 @@ def register():
             symptoms,
             "Waiting",
             created_at
-
         ))
-
 
         conn.commit()
         conn.close()
-
 
         return redirect(
             url_for(
@@ -505,7 +482,6 @@ def register():
                 token=token
             )
         )
-
 
     return render_template("register.html")
 
@@ -519,21 +495,17 @@ def token(token):
 
     conn = get_db()
 
-
     patient = conn.execute("""
         SELECT *
         FROM patients
         WHERE token = ?
     """, (token,)).fetchone()
 
-
     conn.close()
-
 
     if patient is None:
 
         return "Token not found", 404
-
 
     return render_template(
         "token.html",
@@ -550,16 +522,13 @@ def patients():
 
     conn = get_db()
 
-
     patient_list = conn.execute("""
         SELECT *
         FROM patients
         ORDER BY id DESC
     """).fetchall()
 
-
     conn.close()
-
 
     return render_template(
         "patients.html",
@@ -589,7 +558,6 @@ def doctor_login():
             ""
         ).strip()
 
-
         if (
             email == "doctor@smarthospital.com"
             and
@@ -604,12 +572,10 @@ def doctor_login():
                 url_for("doctor")
             )
 
-
         return render_template(
             "doctor_login.html",
             error="Invalid doctor credentials."
         )
-
 
     return render_template(
         "doctor_login.html"
@@ -637,13 +603,11 @@ def dashboard():
 
     conn = get_db()
 
-
     waiting = conn.execute("""
         SELECT COUNT(*) AS total
         FROM patients
         WHERE status = 'Waiting'
     """).fetchone()["total"]
-
 
     critical = conn.execute("""
         SELECT COUNT(*) AS total
@@ -652,7 +616,6 @@ def dashboard():
         AND status != 'Completed'
     """).fetchone()["total"]
 
-
     serious = conn.execute("""
         SELECT COUNT(*) AS total
         FROM patients
@@ -660,68 +623,44 @@ def dashboard():
         AND status != 'Completed'
     """).fetchone()["total"]
 
-
     completed = conn.execute("""
         SELECT COUNT(*) AS total
         FROM patients
         WHERE status = 'Completed'
     """).fetchone()["total"]
 
-
     total_patients = conn.execute("""
         SELECT COUNT(*) AS total
         FROM patients
     """).fetchone()["total"]
 
-
     patient_list = conn.execute("""
         SELECT *
         FROM patients
-
         ORDER BY
-
             CASE emergency_level
-
                 WHEN 'Critical' THEN 1
-
                 WHEN 'Serious' THEN 2
-
                 WHEN 'Normal' THEN 3
-
                 ELSE 4
-
             END,
-
             id ASC
     """).fetchall()
 
-
     conn.close()
 
-
     stats = {
-
         "waiting": waiting,
-
         "critical": critical,
-
         "serious": serious,
-
         "completed": completed,
-
         "total": total_patients
-
     }
 
-
     return render_template(
-
         "dashboard.html",
-
         stats=stats,
-
         patients=patient_list
-
     )
 
 
@@ -740,45 +679,29 @@ def update_status(patient_id):
         ""
     )
 
-
     allowed_statuses = [
-
         "Waiting",
-
         "In Treatment",
-
         "Completed"
-
     ]
-
 
     if status not in allowed_statuses:
 
         return "Invalid status", 400
 
-
     conn = get_db()
-
 
     conn.execute("""
         UPDATE patients
-
         SET status = ?
-
         WHERE id = ?
     """, (
-
         status,
-
         patient_id
-
     ))
 
-
     conn.commit()
-
     conn.close()
-
 
     return redirect(
         url_for("dashboard")
@@ -794,7 +717,6 @@ def beds():
 
     conn = get_db()
 
-
     all_beds = conn.execute("""
         SELECT
             id,
@@ -805,26 +727,18 @@ def beds():
             floor,
             room
         FROM beds
-
         ORDER BY
-
             CASE bed_type
-
                 WHEN 'ICU' THEN 1
-
                 ELSE 2
-
             END,
-
             id ASC
     """).fetchall()
-
 
     total_beds = conn.execute("""
         SELECT COUNT(*) AS total
         FROM beds
     """).fetchone()["total"]
-
 
     available_beds = conn.execute("""
         SELECT COUNT(*) AS total
@@ -832,48 +746,32 @@ def beds():
         WHERE status = 'Available'
     """).fetchone()["total"]
 
-
     occupied_beds = conn.execute("""
         SELECT COUNT(*) AS total
         FROM beds
         WHERE status = 'Occupied'
     """).fetchone()["total"]
 
-
     available_icu = conn.execute("""
         SELECT COUNT(*) AS total
         FROM beds
-
         WHERE bed_type = 'ICU'
-
         AND status = 'Available'
     """).fetchone()["total"]
 
-
     conn.close()
 
-
     bed_stats = {
-
         "total": total_beds,
-
         "available": available_beds,
-
         "occupied": occupied_beds,
-
         "icu": available_icu
-
     }
 
-
     return render_template(
-
         "beds.html",
-
         beds=all_beds,
-
         stats=bed_stats
-
     )
 
 
@@ -892,45 +790,29 @@ def update_bed(bed_id):
         ""
     )
 
-
     allowed_statuses = [
-
         "Available",
-
         "Occupied",
-
         "Maintenance"
-
     ]
-
 
     if status not in allowed_statuses:
 
         return "Invalid bed status", 400
 
-
     conn = get_db()
-
 
     conn.execute("""
         UPDATE beds
-
         SET status = ?
-
         WHERE id = ?
     """, (
-
         status,
-
         bed_id
-
     ))
 
-
     conn.commit()
-
     conn.close()
-
 
     return redirect(
         url_for("beds")
@@ -946,7 +828,6 @@ def ambulances():
 
     conn = get_db()
 
-
     ambulance_list = conn.execute("""
         SELECT
             id,
@@ -956,16 +837,13 @@ def ambulances():
             location,
             status
         FROM ambulances
-
         ORDER BY id ASC
     """).fetchall()
-
 
     total = conn.execute("""
         SELECT COUNT(*) AS total
         FROM ambulances
     """).fetchone()["total"]
-
 
     available = conn.execute("""
         SELECT COUNT(*) AS total
@@ -973,13 +851,11 @@ def ambulances():
         WHERE status = 'Available'
     """).fetchone()["total"]
 
-
     on_duty = conn.execute("""
         SELECT COUNT(*) AS total
         FROM ambulances
         WHERE status = 'On Duty'
     """).fetchone()["total"]
-
 
     maintenance = conn.execute("""
         SELECT COUNT(*) AS total
@@ -987,31 +863,19 @@ def ambulances():
         WHERE status = 'Maintenance'
     """).fetchone()["total"]
 
-
     conn.close()
 
-
     stats = {
-
         "total": total,
-
         "available": available,
-
         "on_duty": on_duty,
-
         "maintenance": maintenance
-
     }
 
-
     return render_template(
-
         "ambulances.html",
-
         ambulances=ambulance_list,
-
         stats=stats
-
     )
 
 
@@ -1030,45 +894,29 @@ def update_ambulance(ambulance_id):
         ""
     )
 
-
     allowed_statuses = [
-
         "Available",
-
         "On Duty",
-
         "Maintenance"
-
     ]
-
 
     if status not in allowed_statuses:
 
         return "Invalid ambulance status", 400
 
-
     conn = get_db()
-
 
     conn.execute("""
         UPDATE ambulances
-
         SET status = ?
-
         WHERE id = ?
     """, (
-
         status,
-
         ambulance_id
-
     ))
 
-
     conn.commit()
-
     conn.close()
-
 
     return redirect(
         url_for("ambulances")
@@ -1097,30 +945,25 @@ def staff_login():
             ""
         ).strip()
 
-
         if (
             email == "staff@smarthospital.com"
             and
             password == "staff123"
         ):
 
-            session["user_role"] = "staff"
+            session.clear()
 
+            session["user_role"] = "staff"
             session["user_email"] = email
 
             return redirect(
                 url_for("staff")
             )
 
-
         return render_template(
-
             "staff_login.html",
-
             error="Invalid staff credentials."
-
         )
-
 
     return render_template(
         "staff_login.html"
@@ -1132,6 +975,7 @@ def staff_login():
 # =========================================================
 
 @app.route("/staff")
+@login_required("staff")
 def staff():
 
     return render_template(
@@ -1161,7 +1005,6 @@ def admin_login():
             ""
         ).strip()
 
-
         if (
             email == "admin@smarthospital.com"
             and
@@ -1176,15 +1019,10 @@ def admin_login():
                 url_for("admin")
             )
 
-
         return render_template(
-
             "admin_login.html",
-
             error="Invalid admin credentials."
-
         )
-
 
     return render_template(
         "admin_login.html"
@@ -1200,84 +1038,57 @@ def admin():
 
     conn = get_db()
 
-
     total_patients = conn.execute("""
         SELECT COUNT(*) AS total
         FROM patients
     """).fetchone()["total"]
 
-
     critical_cases = conn.execute("""
         SELECT COUNT(*) AS total
         FROM patients
-
         WHERE emergency_level = 'Critical'
-
         AND status != 'Completed'
     """).fetchone()["total"]
-
 
     completed_cases = conn.execute("""
         SELECT COUNT(*) AS total
         FROM patients
-
         WHERE status = 'Completed'
     """).fetchone()["total"]
-
 
     available_beds = conn.execute("""
         SELECT COUNT(*) AS total
         FROM beds
-
         WHERE status = 'Available'
     """).fetchone()["total"]
-
 
     available_icu = conn.execute("""
         SELECT COUNT(*) AS total
         FROM beds
-
         WHERE bed_type = 'ICU'
-
         AND status = 'Available'
     """).fetchone()["total"]
-
 
     available_ambulances = conn.execute("""
         SELECT COUNT(*) AS total
         FROM ambulances
-
         WHERE status = 'Available'
     """).fetchone()["total"]
 
-
     conn.close()
 
-
     stats = {
-
         "total_patients": total_patients,
-
         "critical": critical_cases,
-
         "completed": completed_cases,
-
         "available_beds": available_beds,
-
         "available_icu": available_icu,
-
-        "available_ambulances":
-            available_ambulances
-
+        "available_ambulances": available_ambulances
     }
 
-
     return render_template(
-
         "admin.html",
-
         stats=stats
-
     )
 
 
